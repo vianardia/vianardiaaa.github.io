@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sayangku! 💝</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Elements */
+        .floating-teddy {
+            position: fixed;
+            font-size: 50px;
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            font-size: 30px;
+            animation: floatHeart 4s linear infinite;
+            z-index: -1;
+        }
+
+        .falling-stars {
+            position: fixed;
+            font-size: 20px;
+            animation: fallingStar 3s linear infinite;
+            z-index: -1;
+        }
+
+        .balloon {
+            position: fixed;
+            font-size: 40px;
+            animation: floatBalloon 8s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(100vh) translateX(-100%); opacity: 1; }
+            100% { transform: translateY(-100px) translateX(100%); opacity: 0; }
+        }
+
+        @keyframes fallingStar {
+            0% { transform: translateY(-100px) translateX(0); opacity: 1; }
+            100% { transform: translateY(100vh) translateX(50px); opacity: 0; }
+        }
+
+        @keyframes floatBalloon {
+            0% { transform: translateY(100vh) translateX(0); }
+            100% { transform: translateY(-100vh) translateX(50px); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            display: none;
+            z-index: 1000;
+            animation: fadeIn 0.5s;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .heart-bg {
+            position: fixed;
+            font-size: 150px;
+            opacity: 0.1;
+            z-index: -1;
+            animation: pulse 2s infinite;
+        }
+
+        .page {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ff69b4;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: transform 0.3s;
+        }
+
+        input:focus {
+            transform: scale(1.02);
+            border-color: #ff1493;
+        }
+
+        button {
+            background: #ff1493;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #ff69b4;
+        }
+
+        .birthday-card {
+            text-align: center;
+        }
+
+        .message {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s;
+            margin: 15px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        #successNotification {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background elements -->
+    <div class="floating-teddy" style="left: 10%;">🧸</div>
+    <div class="floating-teddy" style="right: 15%; animation-delay: 2s;">🧸</div>
+    <div class="floating-hearts" style="left: 20%;">💝</div>
+    <div class="floating-hearts" style="right: 25%; animation-delay: 1s;">💖</div>
+    <div class="floating-hearts" style="left: 75%; animation-delay: 2s;">💕</div>
+    <div class="falling-stars" style="left: 30%;">⭐</div>
+    <div class="falling-stars" style="right: 35%; animation-delay: 1.5s;">⭐</div>
+    <div class="falling-stars" style="left: 65%; animation-delay: 2.5s;">⭐</div>
+    <div class="balloon" style="left: 5%;">🎈</div>
+    <div class="balloon" style="right: 8%; animation-delay: 4s;">🎈</div>
+
+    <!-- Error Notification -->
+    <div id="errorNotification" class="notification">
+        Coba lagi ya sayanggku... 💝
+    </div>
+
+    <!-- Success Notification -->
+    <div id="successNotification" class="notification">
+        🎉 Selamat Ulang Tahun Sayang! 🎉
+    </div>
+
+    <div class="heart-bg">❤️</div>
+
+    <!-- Page 1: First Question -->
+    <div id="page1" class="page active">
+        <div class="question-container">
+            <h2>💝 Welcome to Special Birthday Message 💝</h2>
+            <p>Pertanyaan #1:</p>
+            <p>Masukkan nama kamu yang lengkap yaa sayang</p>
+            <input type="text" id="answer1" placeholder="Jawab yaaa sayanggg ..." oninput="animateInput()">
+            <button onclick="nextPage(1, 'answer1')">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- Page 2: Second Question -->
+    <div id="page2" class="page">
+        <div class="question-container">
+            <h2>🎀 Getting Closer 🎀</h2>
+            <p>Pertanyaan #2:</p>
+            <p>Tanggal berapa ulang tahunmu?</p>
+            <input type="text" id="answer2" placeholder="Format: DD/MM/YYYY">
+            <button onclick="nextPage(2, 'answer2')">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- Page 3: Third Question -->
+    <div id="page3" class="page">
+        <div class="question-container">
+            <h2>💖 Almost There 💖</h2>
+            <p>Pertanyaan #3:</p>
+            <p>Apa panggilan romantis untukmu?</p>
+            <input type="text" id="answer3" placeholder="Jawab dengan manis...">
+            <button onclick="nextPage(3, 'answer3')">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- Page 4: Fourth Question -->
+    <div id="page4" class="page">
+        <div class="question-container">
+            <h2>💞 Sedikit lagi ayoo ayang cemungut! 💞</h2>
+            <p>Pertanyaan #4:</p>
+            <p>Apa makanan favoritmu?</p>
+            <input type="text" id="answer4" placeholder="Jawab dengan benar...">
+            <button onclick="nextPage(4, 'answer4')">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- Page 5: Fifth Question -->
+    <div id="page5" class="page">
+        <div class="question-container">
+            <h2>💕 Hampir Sampai selesai ayang! 💕</h2>
+            <p>Pertanyaan #5:</p>
+            <p>Dimana tempat favorit kita bersama?</p>
+            <input type="text" id="answer5" placeholder="Jawab dengan penuh kenangan...">
+            <button onclick="showBirthdayMessage()">Show Birthday Message ✨</button>
+        </div>
+    </div>
+
+    <!-- Final Page -->
+    <div id="page6" class="page">
+        <div class="birthday-card">
+            <h1>🎉 Happy Birthday Sayangggkuu! 🎉</h1>
+            <div id="birthdayMessages">
+                <div class="message">Selamat Ulang Tahun yang ke-22 yaa sayangggg</div>
+                <div class="message">Regita Syawalia Safitri! 👑</div>
+                <div class="message">Pacarku yang paling gemesh dan spesial ✨</div>
+                <div class="message">Di hari spesialmu ini, aku berharap: ✨</div>
+                <div class="message">✨ Semoga selalu dalam lindungan Allah SWT ✨</div>
+                <div class="message">✨ Semua impianmu tercapai ✨</div>
+                <div class="message">✨ Selalu bahagia dan tersenyum ✨</div>
+                <div class="message">✨ Makin sabar dalam menghadai sesuatu yaa sayang ✨</div>
+                <div class="message">✨ Dan tentunya makin sayang sama aku 💝</div>
+                <div class="message">💫 Semoga harimu seindah senyummu! 💫</div>
+                <div class="message">🌟 Ingatlah selalu, kamu istimewa! 🌟</div>
+                <div class="message">Aku mencintaimu 💖</div>
+                <h1>🎉 Makaciw ayanggg Suda dibukaa 🎉</h1>
+            </div>
+            <button onclick="replay()">Replay</button>
+        </div>
+    </div>
+
+    <script>
+        // Define correct answers
+        const correctAnswers = {
+            'answer1': 'Regita Syawalia Safitri',
+            'answer2': '27/11/2003',
+            'answer3': 'sayanggg',
+            'answer4': 'mie goreng',
+            'answer5': 'nasi uduk deket halte'
+        };
+
+        function showErrorNotification() {
+            const notification = document.getElementById('errorNotification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function showSuccessNotification() {
+            const notification = document.getElementById('successNotification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function validateAnswer(answerId) {
+            const userAnswer = document.getElementById(answerId).value.trim().toLowerCase();
+            const correctAnswer = correctAnswers[answerId].toLowerCase();
+            
+            if (userAnswer === correctAnswer) {
+                return true;
+            }
+            showErrorNotification();
+            return false;
+        }
+
+        function nextPage(currentPage, answerId) {
+            if (validateAnswer(answerId)) {
+                document.getElementById(`page${currentPage}`).classList.remove('active');
+                document.getElementById(`page${currentPage + 1}`).classList.add('active');
+                if (currentPage === 4) {
+                    showSuccessNotification();
+                }
+            }
+        }
+
+        function showBirthdayMessage() {
+            if (validateAnswer('answer5')) {
+                document.getElementById('page5').classList.remove('active');
+                document.getElementById('page6').classList.add('active');
+                showSuccessNotification();
+                animateBirthdayMessages();
+            }
+        }
+
+        function replay() {
+            location.reload();
+        }
+
+        function animateBirthdayMessages() {
+            const messages = document.querySelectorAll('.message');
+            messages.forEach((message, index) => {
+                setTimeout(() => {
+                    message.style.opacity = '1';
+                    message.style.transform = 'translateY(0)';
+                }, index * 500);
+            });
+        }
+
+        function animateInput() {
+            const input = event.target;
+            input.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                input.style.transform = 'scale(1)';
+            }, 200);
+        }
+    </script>
+</body>
+</html>
